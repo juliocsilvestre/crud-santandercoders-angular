@@ -28,4 +28,11 @@ export class CustomerService {
   getList(): Customer[] {
     return this.customers;
   }
+
+  getById() {}
+  update() {}
+  delete(id: number) {
+    this.customers = this.customers.filter((customer) => customer.id !== id);
+  }
+  create() {}
 }
