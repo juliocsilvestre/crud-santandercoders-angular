@@ -6,29 +6,38 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
-  styleUrls: ['./customer-list.component.css'],
+  styleUrls: ['./customer-list.component.css']
 })
 export class CustomerListComponent implements OnInit {
-  customers: Customer[] = [];
-  constructor(
+  customers: Customer[] = []
+  customerIdSelectedToDelete:string = '-1'
+
+  constructor (
     private customerService: CustomerService,
     private router: Router
-  ) {}
+    ){
+
+  }
 
   ngOnInit(): void {
+    this.loadUsers();
+  }
+  
+  loadUsers(): void {
     this.customers = this.customerService.getList();
   }
 
-  goToCustomerEdit(id: number) {
-    this.router.navigate(['customer-edit', id]);
+  goToCustomerEdit(id: string){
+    this.router.navigate(['customer-edit',id]);
   }
 
-  deleteCustomer(id: number) {
-    this.customerService.delete(id);
-    this.ngOnInit();
+  deleteCustomer(id: string):void {
+    this.customerService.delete(this.customerIdSelectedToDelete);
+    this.ngOnInit()
   }
 
-  /* openModalConfirmDelete(id: number) {
+  openModalConfirmDelete(id: string){
     this.customerIdSelectedToDelete = id;
-  } */
+  }
+
 }

@@ -7,6 +7,11 @@ import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { CustomerListComponent } from './pages/customer-list/customer-list.component';
 import { CustomerEditComponent } from './pages/customer-edit/customer-edit.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CustomerService } from './services/customer.service';
+import { LoginComponent } from './pages/login/login.component';
+
+
 
 @NgModule({
   declarations: [
@@ -14,13 +19,16 @@ import { CustomerEditComponent } from './pages/customer-edit/customer-edit.compo
     HeaderComponent,
     FooterComponent,
     CustomerListComponent,
-    CustomerEditComponent
+    CustomerEditComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [CustomerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

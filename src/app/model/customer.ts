@@ -1,6 +1,6 @@
 export interface Customer {
-  id: number;
-  name: string;
-  email: string;
-  dafeOfBirth: Date;
+    id: string,
+    name: string,
+    birthDay: Date,
+    email: string
 }

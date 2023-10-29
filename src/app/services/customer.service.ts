@@ -2,37 +2,57 @@ import { Injectable } from '@angular/core';
 import { Customer } from '../model/customer';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CustomerService {
   customers: Customer[] = [];
+  customer: Customer | null = null;
 
   constructor() {
-    let customer: Customer = {
-      id: 1,
-      name: 'Julio',
-      email: 'jcss.silvestre@gmail.com',
-      dafeOfBirth: new Date('1994-04-14'),
-    };
-    this.customers.push(customer);
-
-    let customer2: Customer = {
-      id: 2,
-      name: 'Pedro',
-      email: 'pedro.silvestre@gmail.com',
-      dafeOfBirth: new Date('1998-04-14'),
-    };
-    this.customers.push(customer2);
+    this.loadCustomersFromLocalStorage();
   }
 
   getList(): Customer[] {
     return this.customers;
   }
 
-  getById() {}
-  update() {}
-  delete(id: number) {
-    this.customers = this.customers.filter((customer) => customer.id !== id);
+  getById(id: string){
+    return this.customers.find( customer => customer.id === id);
+  }  
+  update(customer: Customer) {
+    const existingCustomer = this.customers.find(customer => customer.id === customer.id);
+    if (existingCustomer) {
+      existingCustomer.name = customer.name;
+      existingCustomer.email = customer.email;
+      existingCustomer.birthDay = customer.birthDay;
+    } else {
+      this.customers.push(customer);
+    }
+
+    this.saveCustomersToLocalStorage();
   }
-  create() {}
+
+  delete(id: string) {
+    this.customers = this.customers.filter(customer => customer.id !== id);
+    this.saveCustomersToLocalStorage();
+  }
+
+  create(customer:Customer){
+
+    let uuid = self.crypto.randomUUID();
+    customer.id = uuid;
+    this.customers.push(customer)
+  }
+
+  private saveCustomersToLocalStorage() {
+    localStorage.setItem('customers', JSON.stringify(this.customers));
+  }
+
+  private loadCustomersFromLocalStorage() {
+    const storedCustomers = localStorage.getItem('customers');
+    if (storedCustomers) {
+      this.customers = JSON.parse(storedCustomers);
+      
+    }
+  }
 }
